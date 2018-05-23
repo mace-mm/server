@@ -19,13 +19,17 @@ from django.urls import path, include, re_path
 from rest_framework import routers
 from topic import views
 
+from graphene_django.views import GraphQLView
+
 router = routers.DefaultRouter()
 
 router.register(r'topics', views.TopicViewSet)
 
 urlpatterns = [
     re_path(r'^', include(router.urls)),
-    re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    re_path(r'^api-auth/', include('rest_framework.urls',
+                                   namespace='rest_framework')),
     path('admin/', admin.site.urls),
-    path('topic/', include('topic.urls'))
+    path('topic/', include('topic.urls')),
+    re_path(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
